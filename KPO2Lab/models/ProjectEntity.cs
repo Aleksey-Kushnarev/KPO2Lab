@@ -22,7 +22,7 @@ namespace KPO2Lab.models
 
         public override string ToString()
         {
-            return $"{id} {name}";
+            return $" {name}";
         }
 
 

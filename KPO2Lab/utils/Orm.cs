@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
+using System.Xml.Linq;
 
 namespace KPO2Lab.utils
 {
@@ -90,7 +91,7 @@ namespace KPO2Lab.utils
 
         public void ChangeParent<T>(int entityId, int newParentId) where T : class, IEntity, IHasParent
         {
-            var entity = context.Set<T>().Find(entityId);
+            T? entity = context.Set<T>().FirstOrDefault(e => e.id == entityId);
             if (entity != null)
             {
                 entity.SetParentId(newParentId);

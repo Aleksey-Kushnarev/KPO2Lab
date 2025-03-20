@@ -22,7 +22,7 @@ namespace KPO2Lab.models
         {
             login = string.Empty;
             password = string.Empty;
-            registration_date = DateTime.Now; // Устанавливаем текущую дату
+            registration_date = DateTime.UtcNow; // Устанавливаем текущую дату
             is_active = true; // По умолчанию активен
         }
     }

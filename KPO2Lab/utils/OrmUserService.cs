@@ -85,5 +85,28 @@ namespace KPO2Lab.utils
         {
             return context.RegisteredUser.ToList();
         }
+
+        public RegisteredUserEntity? GetLastUser()
+        {
+            return context.RegisteredUser.OrderBy(u => u.id).LastOrDefault();
+        }
+
+        public void DeleteUser(RegisteredUserEntity? user)
+        {
+            if (user == null) { return; }
+            context.RegisteredUser.Remove(user);
+            context.SaveChanges();
+        }
+
+        public List<RegisteredUserEntity> FindByName(string login)
+        {
+            return context.RegisteredUser.Where(u => u.login == login).ToList();
+        }
+
+        public void UpdateUser(RegisteredUserEntity user)
+        {
+            context.RegisteredUser.Update(user);
+            context.SaveChanges();
+        }
     }
 }

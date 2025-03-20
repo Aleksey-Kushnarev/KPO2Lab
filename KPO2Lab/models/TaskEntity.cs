@@ -29,7 +29,7 @@ namespace KPO2Lab
 
         public override string ToString()
         {
-            return $"{id} {name} {project}"; 
+            return $"{name}"; 
         }
 
         public void SetParentId(int newId)

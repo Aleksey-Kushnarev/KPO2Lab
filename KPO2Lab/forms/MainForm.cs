@@ -11,16 +11,15 @@ namespace KPO2Lab
     public partial class MainForm : Form
     {
         private readonly Orm orm;
-        UserListForm userListForm;
+        IServiceProvider provider;
 
         public MainForm(IServiceProvider provider)
         {
-            //Authenticate(provider);
-
+            Authenticate(provider);
+            this.provider = provider;
             orm = new Orm(provider);
             InitializeComponent();
 
-            userListForm = new UserListForm(provider);
 
             FillTreeView();
 
@@ -53,7 +52,7 @@ namespace KPO2Lab
         private TreeNode FillProjectsNode()
         {
             var projects = orm.GetProjects();
-            TreeNode rootProjectsNode = new TreeNode("Projects " + projects.Count.ToString());
+            TreeNode rootProjectsNode = new TreeNode("Projects");
             rootProjectsNode.Tag = 0;
             foreach (var project in projects)
             {
@@ -228,11 +227,11 @@ namespace KPO2Lab
 
         private void ChangeNode(TreeNode draggedNode, TreeNode targetNode)
         {
-            if (draggedNode.Level == 2 && targetNode.Level == 1) // User -> Task
+            if (draggedNode.Level == 3 && targetNode.Level == 2) // User -> Task
             {
                 orm.ChangeParent<UserEntity>((int)draggedNode.Tag, (int)targetNode.Tag);
             }
-            else if (draggedNode.Level == 1 && targetNode.Level == 0) // Task -> Project
+            else if (draggedNode.Level == 2 && targetNode.Level == 1) // Task -> Project
             {
                 orm.ChangeParent<TaskEntity>((int)draggedNode.Tag, (int)targetNode.Tag);
             }
@@ -263,7 +262,11 @@ namespace KPO2Lab
 
         private void userListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            userListForm.Show();
+
+            using (var form = new UserListForm(provider)) // Используем сохранённый provider
+            {
+                form.ShowDialog();
+            }
         }
 
         private void EditNode<TypeEntity, TypeForm>()

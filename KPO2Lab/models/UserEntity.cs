@@ -33,8 +33,7 @@ namespace KPO2Lab.models
         }
         public override string ToString()
         {
-            return $" ID:{this.id} | Name {this.name} {this.surname} |" +
-            $"Task: {this.task}";
+            return $" {this.name} {this.surname}";
 
 
         }
